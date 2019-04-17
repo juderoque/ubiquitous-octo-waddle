@@ -1,2 +1,8 @@
 # ubiquitous-octo-waddle
 game about octopus
+
+to play, go to the home directory for the project (ubiquitous-octo-waddle/) and then run
+
+node server/index.js
+
+and then go to localhost:8082 in a web browser.

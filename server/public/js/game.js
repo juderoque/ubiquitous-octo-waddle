@@ -16,7 +16,10 @@ function preload() {
   this.load.image('red-zone','assets/red-zone.jpg');
   this.load.image('blue-zone','assets/blue-zone.jpg');
   this.load.image('water', 'assets/plain-blue-background.jpg');
-  this.load.image('star', 'assets/star_gold.png');
+  //this.load.image('star', 'assets/star_gold.png');
+  this.load.spritesheet('octoflag1','assets/octoflag1.png',{frameWidth: 98,frameHeight: 109});
+  this.load.spritesheet('octoflag2','assets/octoflag2.png',{frameWidth: 98,frameHeight: 109});
+  this.load.image('flag', 'assets/flag.png');
   this.load.spritesheet('octo1','assets/octo1.png',{frameWidth: 98,frameHeight: 109});
   this.load.spritesheet('octo2','assets/octo2.png',{frameWidth: 98,frameHeight: 109});
   this.load.spritesheet('ship', 'assets/octopus-purple.png', {
@@ -45,6 +48,20 @@ function create() {
         frames: [{key: 'octo1'}],
         frameRate: 20
   });
+  this.anims.create({
+        key: 'flagforward',
+        frames: [{key:'octoflag1'},{key:'octoflag2'}],
+        frameRate: 5,
+        repeat: -1
+  });
+  this.anims.create({
+        key: 'flagstill',
+        frames: [{key: 'octoflag1'}],
+        frameRate: 20
+  });
+
+
+
 
   this.blueScoreText = this.add.text(16, 16, '', { fontSize: '32px', fill: '#0000FF' });
   this.redScoreText = this.add.text(584, 16, '', { fontSize: '32px', fill: '#FF0000' });
@@ -77,8 +94,18 @@ function create() {
         if (players[id].playerId === player.playerId) {
           player.setRotation(players[id].rotation);
           player.setPosition(players[id].x, players[id].y);
-          if(players[id].input.up) player.anims.play('forward',true);
-          else player.anims.play('still',true);
+
+          if(players[id].hasFlag){
+            if(players[id].input.up) player.anims.play('flagforward',true);
+            else player.anims.play('flagstill',true);
+
+          }
+          else{
+            if(players[id].input.up) player.anims.play('forward',true);
+            else player.anims.play('still',true);
+          }
+
+
         }
       });
     });
@@ -89,11 +116,19 @@ function create() {
     self.redScoreText.setText('Red: ' + scores.red);
   });
 
-  this.socket.on('starLocation', function (starLocation) {
-    if (!self.star) {
-      self.star = self.add.image(starLocation.x, starLocation.y, 'star');
+  // this.socket.on('starLocation', function (starLocation) {
+  //   if (!self.star) {
+  //     self.star = self.add.image(starLocation.x, starLocation.y, 'star');
+  //   } else {
+  //     self.star.setPosition(starLocation.x, starLocation.y);
+  //   }
+  // });
+
+  this.socket.on('flagLocation', function (flagLocation) {
+    if (!self.flag) {
+      self.flag = self.add.image(flagLocation.x, flagLocation.y, 'flag');
     } else {
-      self.star.setPosition(starLocation.x, starLocation.y);
+      self.flag.setPosition(flagLocation.x, flagLocation.y);
     }
   });
 

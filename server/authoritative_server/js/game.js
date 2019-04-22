@@ -25,12 +25,10 @@ function preload() {
   this.load.image('water', 'assets/plain-blue-background.jpg');
   this.load.spritesheet('octo1','assets/octo1.png',{frameWidth: 98,frameHeight: 109});
   this.load.spritesheet('octo2','assets/octo2.png',{frameWidth: 98,frameHeight: 109});
-  this.load.image('star', 'assets/star_gold.png');
-  this.load.spritesheet('ship', 'assets/octopus-purple.png', {
-        frameWidth: 128,
-        frameHeight: 128
-  });
-
+  this.load.spritesheet('octoflag1','assets/octoflag1.png',{frameWidth: 98,frameHeight: 109});
+  this.load.spritesheet('octoflag2','assets/octoflag2.png',{frameWidth: 98,frameHeight: 109});
+  //this.load.image('star', 'assets/star_gold.png');
+  this.load.image('flag','assets/flag.png');
 }
 
 function create() {
@@ -45,21 +43,50 @@ function create() {
     red: 0
   };
 
-  this.star = this.physics.add.image(415, 315, 'star');
+  //this.star = this.physics.add.image(415, 315, 'star');
+  this.flag = this.physics.add.image(415,315,'flag');
+
   this.red_zone=this.physics.add.image(100,300,'red-zone');
   this.blue_zone=this.physics.add.image(700,300,'blue-zone');
   this.physics.add.collider(this.players);
-  this.physics.add.overlap(this.players, this.star, function (star, player) {
-    if (players[player.playerId].team === 'red') {
-      self.scores.red += 10;
-    } else {
-      self.scores.blue += 10;
-    }
-    self.star.setPosition(randomPosition(700), randomPosition(500));
+  // this.physics.add.overlap(this.players, this.star, function (star, player) {
+  //   if (players[player.playerId].team === 'red') {
+  //     self.scores.red += 10;
+  //   } else {
+  //     self.scores.blue += 10;
+  //   }
+  //   self.star.setPosition(randomPosition(700), randomPosition(500));
+  //   io.emit('updateScore', self.scores);
+  //   io.emit('starLocation', { x: self.star.x, y: self.star.y });
+  // });
+
+  this.physics.add.overlap(this.players, this.flag, function (flag, player) {
+    players[player.playerId].hasFlag = true;
+    self.flag.setPosition(1000, 1000);
     io.emit('updateScore', self.scores);
-    io.emit('starLocation', { x: self.star.x, y: self.star.y });
+    io.emit('flagLocation', { x: self.flag.x, y: self.flag.y });
   });
-  
+
+  this.physics.add.overlap(this.players, this.red_zone, function (red_zone, player) {
+    if(players[player.playerId].hasFlag&&players[player.playerId].team==='red'){
+      self.flag.setPosition(415, 315);
+      self.scores.red+=1;
+      players[player.playerId].hasFlag=false;
+    }
+    io.emit('updateScore', self.scores);
+    io.emit('flagLocation', { x: self.flag.x, y: self.flag.y });
+  });
+  this.physics.add.overlap(this.players, this.blue_zone, function (blue_zone, player) {
+    if(players[player.playerId].hasFlag&&players[player.playerId].team==='blue'){
+      self.flag.setPosition(415, 315);
+      self.scores.blue+=1;
+      players[player.playerId].hasFlag=false;
+    }
+    io.emit('updateScore', self.scores);
+    io.emit('flagLocation', { x: self.flag.x, y: self.flag.y });
+  });
+
+
 
 
   io.on('connection', function (socket) {
@@ -76,7 +103,8 @@ function create() {
         left: false,
         right: false,
         up: false
-      }
+      },
+      hasFlag: false
     };
     // add player to server
     addPlayer(self, players[socket.id]);
@@ -85,7 +113,8 @@ function create() {
     // update all other players of the new player
     socket.broadcast.emit('newPlayer', players[socket.id]);
     // send the star object to the new player
-    socket.emit('starLocation', { x: self.star.x, y: self.star.y });
+    //socket.emit('starLocation', { x: self.star.x, y: self.star.y });
+    socket.emit('flagLocation',{x:self.flag.x,y:self.flag.y});
     // send the current scores
     socket.emit('updateScore', self.scores);
 

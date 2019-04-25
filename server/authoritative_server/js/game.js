@@ -49,6 +49,8 @@ function create() {
   this.red_zone=this.physics.add.image(100,300,'red-zone');
   this.blue_zone=this.physics.add.image(700,300,'blue-zone');
   this.physics.add.collider(this.players);
+
+
   // this.physics.add.overlap(this.players, this.star, function (star, player) {
   //   if (players[player.playerId].team === 'red') {
   //     self.scores.red += 10;
@@ -104,7 +106,8 @@ function create() {
         right: false,
         up: false
       },
-      hasFlag: false
+      hasFlag: false,
+      health: 100
     };
     // add player to server
     addPlayer(self, players[socket.id]);
@@ -120,6 +123,12 @@ function create() {
 
     socket.on('disconnect', function () {
       console.log('user disconnected');
+
+      if(players[socket.id].hasFlag){
+        self.flag.setPosition(415, 315);
+        io.emit('flagLocation', { x: self.flag.x, y: self.flag.y });
+      }
+
       // remove player from server
       removePlayer(self, socket.id);
       // remove this player from our players object

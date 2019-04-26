@@ -189,13 +189,6 @@ function update() {
 
     const input = players[player.playerId].input;
 
-    var flagExists=false;
-
-    if(players[player.playerId].hasFlag){
-      if(flagExists) players[player.playerId].hasFlag=false;
-      else flagExists=true;
-    }
-
     if (input.left) {
       player.setAngularVelocity(-300);
     } else if (input.right) {

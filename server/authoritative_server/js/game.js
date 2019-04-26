@@ -47,7 +47,7 @@ function create() {
   };
 
   //this.star = this.physics.add.image(415, 315, 'star');
-  this.flag = this.physics.add.image(415,315,'flag');
+  this.flag = this.physics.add.image(400,300,'flag');
 
   this.red_zone=this.physics.add.image(100,300,'red-zone');
   this.blue_zone=this.physics.add.image(700,300,'blue-zone');
@@ -96,7 +96,7 @@ function create() {
 
   this.physics.add.overlap(this.players, this.red_zone, function (red_zone, player) {
     if(players[player.playerId].hasFlag&&players[player.playerId].team==='red'){
-      self.flag.setPosition(415, 315);
+      self.flag.setPosition(400, 300);
       self.scores.red+=1;
       players[player.playerId].hasFlag=false;
     }
@@ -105,7 +105,7 @@ function create() {
   });
   this.physics.add.overlap(this.players, this.blue_zone, function (blue_zone, player) {
     if(players[player.playerId].hasFlag&&players[player.playerId].team==='blue'){
-      self.flag.setPosition(415, 315);
+      self.flag.setPosition(400, 300);
       self.scores.blue+=1;
       players[player.playerId].hasFlag=false;
     }
@@ -120,9 +120,9 @@ function create() {
     console.log('a user connected');
     // create a new player and add it to our players object
     players[socket.id] = {
-
       rotation: 0,
-      x: Math.floor(Math.random() * 700) + 50,
+      x: (totalBlue>totalRed) ? 100:700,
+      // x: Math.floor(Math.random() * 700) + 50,
       y: Math.floor(Math.random() * 500) + 50,
       playerId: socket.id,
       team: (totalBlue>totalRed) ? 'red':'blue',
@@ -157,7 +157,7 @@ function create() {
       console.log('user disconnected');
 
       if(players[socket.id].hasFlag){
-        self.flag.setPosition(415, 315);
+        self.flag.setPosition(400, 300);
         io.emit('flagLocation', { x: self.flag.x, y: self.flag.y });
       }
 
@@ -187,20 +187,15 @@ function create() {
 function update() {
   this.players.getChildren().forEach((player) => {
 
-    // this.players.getChildren().forEach((otherPlayer) => {
-    //   this.physics.world.collide(player,otherPlayer,function(player,otherPlayer){
-    //     if(players[player.playerID].hasFlag){
-    //       players[player.playerID].hasFlag=false;
-    //       players[otherPlayer.playerID].hasFlag=true;
-    //     }
-    //     else if(players[otherPlayer.playerID].hasFlag){
-    //       players[player.playerID].hasFlag=true;
-    //       players[otherPlayer.playerID].hasFlag=false;
-    //     }
-    //   })
-    // });
-
     const input = players[player.playerId].input;
+
+    var flagExists=false;
+
+    if(players[player.playerId].hasFlag){
+      if(flagExists) players[player.playerId].hasFlag=false;
+      else flagExists=true;
+    }
+
     if (input.left) {
       player.setAngularVelocity(-300);
     } else if (input.right) {
@@ -219,6 +214,8 @@ function update() {
     players[player.playerId].y = player.y;
     players[player.playerId].rotation = player.rotation;
   });
+
+
   this.physics.world.wrap(this.players, 5);
   io.emit('playerUpdates', players);
 }
@@ -236,8 +233,9 @@ function handlePlayerInput(self, playerId, input) {
 }
 
 function addPlayer(self, playerInfo) {
-  const player = self.physics.add.sprite(playerInfo.x, playerInfo.y, 'octo1').setOrigin(0.5, 0.5).setDisplaySize(49, 54);
-  player.setDrag(.5,.5);
+  const player = self.physics.add.sprite(playerInfo.x, playerInfo.y, 'octo1').setOrigin(0.5, 0.5).setDisplaySize(24, 27);
+  player.setDamping(true);
+  player.setDrag(.75,.75);
   player.setAngularDrag(100);
   player.setMaxVelocity(200);
   player.playerId = playerInfo.playerId;

@@ -1,0 +1,22 @@
+html {
+  box-sizing:
+  font-family: arial;
+  background-color: indigo;
+
+}
+
+/*chat container*/
+.chat-box {
+  margin-right: 25%;
+  margin-bottom: 25%;
+  width: 300px;
+  margin: 20px auto;
+
+
+}
+
+.header {
+  background-color: lightblue;
+
+
+}

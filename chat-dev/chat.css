@@ -8,7 +8,8 @@ html {
 /*chat container*/
 .chat-box {
   width: 300px;
-  margin: 20px auto;
+  float: right;
+  height: 700px;
 
 }
 

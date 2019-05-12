@@ -7,16 +7,48 @@ html {
 
 /*chat container*/
 .chat-box {
-  margin-right: 25%;
-  margin-bottom: 25%;
   width: 300px;
   margin: 20px auto;
-
 
 }
 
 .header {
   background-color: lightblue;
+
+
+}
+
+.chats {
+  background-color: lightgray;
+  border-color: lightblue;
+  border: 2px solid #dedede
+}
+
+.chats-left {
+  border-color: #ccc;
+  border: 2px solid #dedede;
+  background-color: Blue;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+
+}
+
+.chats-right {
+  border-color: #ccc;
+  background-color: lightblue;
+  border: 2px solid #dedede;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.input {
+
+
+}
+
+.text {
 
 
 }

@@ -11,12 +11,18 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
+var name;
 
 function preload() {
   this.load.image('red-zone','assets/red-zone.jpg');
   this.load.image('blue-zone','assets/blue-zone.jpg');
   this.load.image('water', 'assets/plain-blue-background.jpg');
+  this.load.image('you', 'assets/you.png')
   //this.load.image('star', 'assets/star_gold.png');
+  this.load.spritesheet('octoflag1_you','assets/octoflag1 copy.png',{frameWidth: 98,frameHeight: 109});
+  this.load.spritesheet('octoflag2_you','assets/octoflag2 copy.png',{frameWidth: 98,frameHeight: 109});
+  this.load.spritesheet('octo1_you','assets/octo1 copy.png',{frameWidth: 98,frameHeight: 109});
+  this.load.spritesheet('octo2_you','assets/octo2 copy.png',{frameWidth: 98,frameHeight: 109});
   this.load.spritesheet('octoflag1','assets/octoflag1.png',{frameWidth: 98,frameHeight: 109});
   this.load.spritesheet('octoflag2','assets/octoflag2.png',{frameWidth: 98,frameHeight: 109});
   this.load.image('flag', 'assets/flag.png');
@@ -36,6 +42,9 @@ function create() {
   var self = this;
   this.socket = io();
   this.players = this.add.group();
+
+  //name = game.add.sprite(0, 0, 'you');
+  //name.anchor.setTo(0.5, 0.5);
 
   this.anims.create({
         key: 'forward',
@@ -60,6 +69,29 @@ function create() {
         frameRate: 20
   });
 
+  this.anims.create({
+        key: 'forward_you',
+        frames: [{key:'octo1_you'},{key:'octo2_you'}],
+        frameRate: 5,
+        repeat: -1
+  });
+  this.anims.create({
+        key: 'still_you',
+        frames: [{key: 'octo1_you'}],
+        frameRate: 20
+  });
+  this.anims.create({
+        key: 'flagforward_you',
+        frames: [{key:'octoflag1_you'},{key:'octoflag2_you'}],
+        frameRate: 5,
+        repeat: -1
+  });
+  this.anims.create({
+        key: 'flagstill_you',
+        frames: [{key: 'octoflag1_you'}],
+        frameRate: 20
+  });
+
 
 
 
@@ -69,7 +101,7 @@ function create() {
   this.socket.on('currentPlayers', function (players) {
     Object.keys(players).forEach(function (id) {
       if (players[id].playerId === self.socket.id) {
-        displayPlayers(self, players[id], 'octo1');
+        displayPlayers(self, players[id], 'octo1_you');
       } else {
         displayPlayers(self, players[id], 'octo1');
       }
@@ -94,15 +126,29 @@ function create() {
         if (players[id].playerId === player.playerId) {
           player.setRotation(players[id].rotation);
           player.setPosition(players[id].x, players[id].y);
+          //name.x = players[id].x;
+          //name.y = players[id].y;
+          //insert text stuff here
 
           if(players[id].hasFlag){
-            if(players[id].input.up) player.anims.play('flagforward',true);
-            else player.anims.play('flagstill',true);
+            if (players[id].playerId === self.socket.id) {
+              if(players[id].input.up) player.anims.play('flagforward_you',true);
+              else player.anims.play('flagstill_you',true);
+            } else {
+              if(players[id].input.up) player.anims.play('flagforward',true);
+              else player.anims.play('flagstill',true);
+            }
+
 
           }
           else{
-            if(players[id].input.up) player.anims.play('forward',true);
-            else player.anims.play('still',true);
+            if (players[id].playerId === self.socket.id) {
+              if(players[id].input.up) player.anims.play('forward_you',true);
+              else player.anims.play('still_you',true);
+            } else {
+              if(players[id].input.up) player.anims.play('forward',true);
+              else player.anims.play('still',true);
+            }
           }
 
 
@@ -167,8 +213,8 @@ function update() {
 
 function displayPlayers(self, playerInfo, sprite) {
   const player = self.add.sprite(playerInfo.x, playerInfo.y, sprite).setOrigin(0.5, 0.5).setDisplaySize(24, 27);
-  if (playerInfo.team === 'blue') player.setTintFill(0x0000FF);
-  else player.setTintFill(0xFF0000);
+  if (playerInfo.team === 'blue') player.setTint(0x0000FF);
+  else player.setTint(0xFF0000);
   player.playerId = playerInfo.playerId;
   self.players.add(player);
 }

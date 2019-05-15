@@ -2,13 +2,19 @@
 <html>
 
     <head>
+      <link rel = "stylesheet" type = "text/css" href = "index.css" />
         <meta charset="utf-8">
     </head>
 
     <body>
       <script src="/socket.io/socket.io.js"></script>
       <script src="//cdn.jsdelivr.net/npm/phaser@3.16.2/dist/phaser.min.js"></script>
-      <script src="js/game.js"></script>
+      <div class="game">
+        <script src="js/game.js"></script>
+      </div>
+      <div class="chat">
+        <iframe align="right" src="http://cs.oberlin.edu/~hnewman/chat-dev/chat.html" width="500" height="600" scrolling="no" </iframe>
+      </div>
     </body>
 
 </html>

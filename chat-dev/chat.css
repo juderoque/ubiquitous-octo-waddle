@@ -12,9 +12,12 @@ html {
 
 .header {
 	background-color: lightblue;
-
+  width: 300px;
+  float: right;
+  height: 75%;
 
 }
+
 
 .chats {
 	font-size: 0.8em;
@@ -52,7 +55,6 @@ html {
 }
 
 .input {
-
 
 }
 

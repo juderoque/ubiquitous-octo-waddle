@@ -30,7 +30,6 @@ function preload() {
   this.load.spritesheet('octo2','assets/octo2.png',{frameWidth: 98,frameHeight: 109});
   this.load.spritesheet('octoflag1','assets/octoflag1.png',{frameWidth: 98,frameHeight: 109});
   this.load.spritesheet('octoflag2','assets/octoflag2.png',{frameWidth: 98,frameHeight: 109});
-  //this.load.image('star', 'assets/star_gold.png');
   this.load.image('flag','assets/flag.png');
 }
 

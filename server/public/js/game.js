@@ -17,7 +17,7 @@ function preload() {
   this.load.image('red-zone','assets/red-zone.jpg');
   this.load.image('blue-zone','assets/blue-zone.jpg');
   this.load.image('water', 'assets/plain-blue-background.jpg');
-  this.load.image('you', 'assets/you.png')
+  //this.load.image('you', 'assets/you.png')
   //this.load.image('star', 'assets/star_gold.png');
   this.load.spritesheet('octoflag1_you','assets/octoflag1 copy.png',{frameWidth: 98,frameHeight: 109});
   this.load.spritesheet('octoflag2_you','assets/octoflag2 copy.png',{frameWidth: 98,frameHeight: 109});

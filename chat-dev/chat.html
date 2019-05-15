@@ -2,7 +2,8 @@
 <!--link css to html-->
 <!DOCTYPE html>
 <head>
-  <!--put css link here-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="chat.js"></script>
   <link rel = "stylesheet" type = "text/css" href = "chat.css" />
 
   </head>
@@ -10,35 +11,28 @@
 
   <section class="chat-box">
   <div class="header">
-    <h1>Chat with players</h1>
+	<h1>Chat with players</h1>
+	<p id=usernum>Error: please enable Javascript in your browser to use this chat!</p>
 </div>
 
   <div class="chats">
-    <ol>
-    <li>
-    <div class="chats-left"> <!--everyone else-->
-      <p> Hello I am testing the left side.
-      This is where other players messages should pop up. </p>
-      </div>
-      </li>
-
-      <li>
-
-    <div class="chats-right">
-      Hello I am testing the right side.<!--yourself-->
-      This is where the users messages should pop up.
-
-      </div>
-      </li>
-      </ol>
-    </div>
+<!--	<div class="chats-left"> 
+	  Hello I am testing the left side.
+	  This is where other players messages should pop up.
+	  </div>
+	<div class="chats-right">
+	  Hello I am testing the right side.
+	  This is where the users messages should pop up.
+-->
+	  </div>
+	</div>
 
 
   <div class="input">
-    <input type="text"/>
-    <button class="submit-button">submit</button>
+	<input type="text" id="sendarea"/>
+	<button id="sendbutton">submit</button>
   </div>
-</<section>
+</section>
 
 </section>
 

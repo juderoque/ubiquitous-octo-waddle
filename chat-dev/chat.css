@@ -1,47 +1,54 @@
 html {
-  box-sizing:
-  font-family: arial;
-  background-color: indigo;
-
+	background-color: lightblue;
 }
 
 /*chat container*/
 .chat-box {
-  width: 300px;
-  float: right;
-  height: 700px;
-
+	width: 300px;
+	/*float: right;*/
+	height: 700px;
+	font-family: helvetica;
 }
 
 .header {
-  background-color: lightblue;
+	background-color: lightblue;
 
 
 }
 
 .chats {
-  background-color: lightgray;
-  border-color: lightblue;
-  border: 2px solid #dedede
+	font-size: 0.8em;
+	background-color: lightgray;
+	height: 400px;
+	width: 300px;
+	border-color: lightblue;
+	border: 2px solid #dedede;
+	padding: 0.25em;
+	overflow-y: scroll;
 }
 
 .chats-left {
-  border-color: #ccc;
-  border: 2px solid #dedede;
-  background-color: Blue;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px 0;
-
+	border-color: #ccc;
+	border: 2px solid #dedede;
+	background-color: #354ace;
+	border-radius: 5px;
+	margin: 10px 0;
+	width: 250px;
+	color: #eeeeee;
+	padding: 0.5em;
+	float: left;
 }
 
 .chats-right {
-  border-color: #ccc;
-  background-color: lightblue;
-  border: 2px solid #dedede;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px 0;
+	border-color: #ccc;
+	border: 2px solid #dedede;
+	background-color: lightblue;
+	border-radius: 5px;
+	margin: 10px 0;
+	width: 250px;
+	color: #222222;
+	padding: 0.5em;
+	float: right;
 }
 
 .input {
@@ -52,4 +59,14 @@ html {
 .text {
 
 
+}
+
+.msg-userid {
+	font-size: 0.75em;
+	color: grey;
+	font-weight: bold;
+}
+
+ul {
+	list-style: none;
 }

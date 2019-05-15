@@ -9,12 +9,12 @@ html {
 .chat-box {
   width: 300px;
   float: right;
-  height: 700px;
+  height: 75%;
 
 }
 
 .header {
-  background-color: lightblue;
+  background-color: lightgray;
 
 
 }
@@ -45,7 +45,6 @@ html {
 }
 
 .input {
-
 
 }
 
